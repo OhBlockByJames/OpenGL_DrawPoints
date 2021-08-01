@@ -14,7 +14,7 @@ public class Points {
                     "uniform vec4 vPosition;" +
                     "void main() {" +
                     "   gl_Position = uMVPMatrix * vPosition;" +
-                    "   gl_PointSize = 20.0;" +
+                    "   gl_PointSize = 50.0;" +
                     "}";
 
     private final String fragmentShaderCode =
@@ -26,7 +26,7 @@ public class Points {
 
 
     // Set color with red, green, blue and alpha (opacity) values
-    float color[] = { 0.63671875f, 0.76953125f, 0.22265625f, 1.0f };
+    float color[] = { 0.5f, 0.3f, 0.6f, 1.0f };
 
     public Points(){
         int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER,
@@ -73,7 +73,7 @@ public class Points {
         float[] transMatrix = new float[16];
 
         Matrix.setIdentityM(transMatrix,0);
-        Matrix.translateM(transMatrix,0,0.5f,0,0);
+        Matrix.translateM(transMatrix,0,0.1f,0.1f,0.1f);
         Matrix.multiplyMM(transMatrix,0,mvpMatrix,0,transMatrix,0);
 
 
