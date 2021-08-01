@@ -1,14 +1,14 @@
 package com.example.opengl_points;
 
-import android.content.Context;
-import android.opengl.GLES20;
-import android.opengl.GLSurfaceView;
+        import android.content.Context;
+        import android.opengl.GLES20;
+        import android.opengl.GLSurfaceView;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
+        import javax.microedition.khronos.egl.EGLConfig;
+        import javax.microedition.khronos.opengles.GL10;
 
-public class PointView extends GLSurfaceView {
-    public PointView(Context context) {
+public class RandomPoints extends GLSurfaceView {
+    public RandomPoints(Context context) {
         super(context);
         //設定OPENGL版本
         setEGLContextClientVersion(2);
@@ -35,13 +35,14 @@ public class PointView extends GLSurfaceView {
 
         @Override
         public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+            //頂點著色器(控制OBJECT X,Y,Z)
             String coordinate="0.5, 0.5, 0.5, 1";
             String source="" +
                     "void main() {" +
                     "   gl_Position = vec4("+coordinate+");" +
                     "   gl_PointSize = 50.0;" +
                     "}";
-            //頂點著色器(控制OBJECT X,Y,Z)
+
 //            int vertex = createShader(GLES20.GL_VERTEX_SHADER, "" +
 //                    "void main() {" +
 //                    "   gl_Position = vec4(0, 0, 0, 1);" +
