@@ -26,7 +26,7 @@ public class Points {
 
 
     // Set color with red, green, blue and alpha (opacity) values
-    float color[] = { 0.5f, 0.3f, 0.6f, 1.0f };
+    float color[] = { 1.0f, 0.8f, 0.6f, 1.0f };
 
     public Points(){
         int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER,
@@ -50,8 +50,9 @@ public class Points {
         GLES20.glLinkProgram(mProgram);
     }
 
-    public void draw(float[] mvpMatrix,float px,float py,float pz) {
-        float positionCoords[] = {px,py,pz,1.0f};
+    public void draw(float[] mvpMatrix,float px,float py,float pz,float r,float g,float b) {
+        float positionCoordinates[] = {px,py,pz,1.0f};
+        float color_set[] = { r, g, b, 1.0f };
 
         // Add program to OpenGL ES environment
         GLES20.glUseProgram(mProgram);
@@ -61,10 +62,13 @@ public class Points {
 
         mColorHandle = GLES20.glGetUniformLocation(mProgram,"vColor");
 
-        // Set color for drawing the triangle
-        GLES20.glUniform4fv(mColorHandle, 1, color, 0);
-
-        GLES20.glUniform4fv(mPositionHandle, 1, positionCoords, 0);
+        // Set color for drawing the points
+        //傳入點的顏色
+        //input parameter取代固定參數
+        //GLES20.glUniform4fv(mColorHandle, 1, color, 0);
+        GLES20.glUniform4fv(mColorHandle, 1, color_set, 0);
+        //傳入點的座標
+        GLES20.glUniform4fv(mPositionHandle, 1, positionCoordinates, 0);
 
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");

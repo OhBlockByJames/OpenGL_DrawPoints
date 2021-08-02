@@ -54,7 +54,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
         //draw point
-        mPoint.draw(mMVPMatrix,0.5f,0.5f,0.5f);
+        //input為x,y,z coordinate 和 r,g,b
+        mPoint.draw(mMVPMatrix,0.5f,0.5f,0.5f,0.8f,0.7f,0.3f);
 
 
         Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, 1.0f);
