@@ -77,6 +77,10 @@ public class PointView extends GLSurfaceView {
         public void onDrawFrame(GL10 unused) {
             GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
             GLES20.glUseProgram(program);
+
+            //可以DRAW GL_POINTS, GL_LINE_STRIP, GL_LINE_LOOP, GL_LINES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, and GL_TRIANGLES 這幾種
+            //first:Specifies the starting index in the enabled arrays.
+            //count:Specifies the number of indices to be rendered.
             GLES20.glDrawArrays(GLES20.GL_POINTS, 0, 1);
         }
 

@@ -29,8 +29,11 @@ public class Points {
     float color[] = { 1.0f, 0.8f, 0.6f, 1.0f };
 
     public Points(){
+        //頂點著色器
         int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER,
                 vertexShaderCode);
+
+        //片段著色器
         int fragmentShader = MyGLRenderer.loadShader(GLES20.GL_FRAGMENT_SHADER,
                 fragmentShaderCode);
 
@@ -77,7 +80,8 @@ public class Points {
         float[] transMatrix = new float[16];
 
         Matrix.setIdentityM(transMatrix,0);
-        Matrix.translateM(transMatrix,0,0.1f,0.1f,0.1f);
+        //Matrix.translateM(transMatrix,0,0.1f,0.1f,0.1f);
+        Matrix.translateM(transMatrix,0,0f,0f,0f);
         Matrix.multiplyMM(transMatrix,0,mvpMatrix,0,transMatrix,0);
 
 

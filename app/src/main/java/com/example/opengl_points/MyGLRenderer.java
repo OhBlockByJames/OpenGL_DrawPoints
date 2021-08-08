@@ -22,6 +22,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private static final String TAG = "MyGLRenderer";
 
     private Points mPoint;
+    private Points mPoint2;
+
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
@@ -37,6 +39,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         mPoint = new Points();
+        mPoint2=new Points();
 
     }
 
@@ -57,6 +60,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         //input為x,y,z coordinate 和 r,g,b
         mPoint.draw(mMVPMatrix,0.5f,0.5f,0.5f,0.8f,0.7f,0.3f);
 
+        mPoint2.draw(mMVPMatrix,0f,0f,-0.3f,0.3f,0.2f,0.8f);
+
 
         Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, 1.0f);
 
@@ -68,13 +73,16 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceChanged(GL10 unused, int width, int height) {
         // Adjust the viewport based on geometry changes,
         // such as screen rotation
-        GLES20.glViewport(0, 0, width, height);
+        //GLES20.glViewport(0, 0, width, height);
 
         float ratio = (float) width / height;
 
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
-        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+        // 轉換 3D point (世界座標空間) to the 2D point on the screen.
+        //6個參數: left, right, bottom, top, near and far boundary values
+        //Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
+        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1,1, 7);
 
     }
 
