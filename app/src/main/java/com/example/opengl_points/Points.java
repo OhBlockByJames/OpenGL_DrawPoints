@@ -25,7 +25,7 @@ public class Points {
                     "}";
 
 
-    // Set color with red, green, blue and alpha (opacity) values
+    // Set color with red, green, blue and alpha (opacity) values 目前沒在使用
     float color[] = { 1.0f, 0.8f, 0.6f, 1.0f };
 
     public Points(){

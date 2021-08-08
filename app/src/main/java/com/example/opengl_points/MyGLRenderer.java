@@ -23,6 +23,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private Points mPoint;
     private Points mPoint2;
+    private Points mPoint3;
 
 
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
@@ -40,6 +41,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         mPoint = new Points();
         mPoint2=new Points();
+        mPoint3=new Points();
 
     }
 
@@ -61,6 +63,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         mPoint.draw(mMVPMatrix,0.5f,0.5f,0.5f,0.8f,0.7f,0.3f);
 
         mPoint2.draw(mMVPMatrix,0f,0f,-0.3f,0.3f,0.2f,0.8f);
+
+        mPoint3.draw(mMVPMatrix,0.2f,0.4f,-0.3f,0.7f,0.5f,0.1f);
 
 
         Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, 1.0f);
