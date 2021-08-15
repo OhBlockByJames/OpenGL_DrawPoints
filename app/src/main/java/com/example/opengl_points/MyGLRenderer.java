@@ -39,21 +39,28 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        mPoint = new Points();
-        mPoint2=new Points();
-        mPoint3=new Points();
 
     }
 
     @Override
     public void onDrawFrame(GL10 unused) {
+        mPoint = new Points();
+        mPoint2=new Points();
+        mPoint3=new Points();
+
         float[] scratch = new float[16];
 
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         // Set the camera position (View matrix)
-        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -6, 0f, 0f, 0f, 1.0f, 1.0f, 1.0f);
+        //把眼睛（或者說相機）放在世界坐標系的(0, 0, -6)這個點，然後觀察的方向正對著點(0.0, 0.0, 0.0)，即世界坐標系的原點。同時我們還需要指定一個「頭朝上」的方向，這在代碼裡設置的是向量(1.0, 1.0, 1.0)指向「上」的方向。
+        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -1.5f, 0f, 0f, 0f, 0.8f, 0.8f, 0.8f);
+
+        //這裡沒有設定projection matrix，(參數三)觀察視角為45.0度。這個值通常被稱為field of view，簡稱fov
+        //(參數四)寬高比，指的是近平面(N)的寬高比
+        //參數五和六分別表示近平面(N)和遠平面(F)與相機的距離
+        //Matrix.perspectiveM(projectionMatrix, 0, 45.0f, width / (float) height, 0.1f, 100.0f);
 
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);

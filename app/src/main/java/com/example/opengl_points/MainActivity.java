@@ -18,18 +18,20 @@ public class MainActivity extends AppCompatActivity {
 //        setContentView(new PointView(this));
 //    }
 private GLSurfaceView mGLView;
+private GraphicView graphicView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Create a GLSurfaceView instance and set it
-        // as the ContentView for this Activity
-        mGLView = new myGLSurface(this);
-        setContentView(mGLView);
+        // Create a GLSurfaceView instance and set it as the ContentView for this Activity
+        //mGLView = new myGLSurface(this);
+        //setContentView(mGLView);
+        setContentView( R.layout.activity_main);
+        graphicView = new GraphicView(this);
     }
 
-    @Override
+    /*@Override
     protected void onPause() {
         super.onPause();
         // The following call pauses the rendering thread.
@@ -37,7 +39,7 @@ private GLSurfaceView mGLView;
         // you should consider de-allocating objects that
         // consume significant memory here.
         mGLView.onPause();
-    }
+    }*/
 
     @Override
     protected void onResume() {
@@ -45,10 +47,13 @@ private GLSurfaceView mGLView;
         // The following call resumes a paused rendering thread.
         // If you de-allocated graphic objects for onPause()
         // this is a good place to re-allocate them.
-        mGLView.onResume();
+        //mGLView.onResume();
+        if (graphicView != null) {
+            graphicView.onResume();
+        }
     }
 
-    @Override
+    /*@Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
@@ -59,6 +64,12 @@ private GLSurfaceView mGLView;
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_FULLSCREEN);
         }
+    }*/
+
+    @Override
+    protected void onDestroy() {
+        graphicView.onPause();
+        super.onDestroy();
     }
 
 }
