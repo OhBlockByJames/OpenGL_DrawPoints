@@ -91,39 +91,4 @@ public class Points {
         GLES20.glDrawArrays(GLES20.GL_POINTS, 0, 1);
     }
 
-    public void create(float px,float py,float pz,float r,float g,float b) {
-        float positionCoordinates[] = {px,py,pz,1.0f};
-        float color_set[] = { r, g, b, 1.0f };
-
-        // Add program to OpenGL ES environment
-        GLES20.glUseProgram(mProgram);
-
-        // get handle to vertex shader's vPosition member
-        mPositionHandle = GLES20.glGetUniformLocation(mProgram, "vPosition");
-
-        mColorHandle = GLES20.glGetUniformLocation(mProgram,"vColor");
-
-        // Set color for drawing the points
-        //傳入點的顏色
-        //input parameter取代固定參數
-        //GLES20.glUniform4fv(mColorHandle, 1, color, 0);
-        GLES20.glUniform4fv(mColorHandle, 1, color_set, 0);
-        //傳入點的座標
-        GLES20.glUniform4fv(mPositionHandle, 1, positionCoordinates, 0);
-
-        // get handle to shape's transformation matrix
-        mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-
-        //TRANSLATION
-        float[] transMatrix = new float[16];
-
-        Matrix.setIdentityM(transMatrix,0);
-        //Matrix.translateM(transMatrix,0,0.1f,0.1f,0.1f);
-
-        // Apply the projection and view transformation
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, transMatrix, 0);
-
-        GLES20.glDrawArrays(GLES20.GL_POINTS, 0, 1);
-    }
-
 }

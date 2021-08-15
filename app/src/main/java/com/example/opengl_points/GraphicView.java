@@ -10,6 +10,7 @@ import android.hardware.SensorManager;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
+import android.opengl.Matrix;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.AttributeSet;
@@ -110,6 +111,7 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
     public boolean ShowPoint = true;
 
 
+
     public GraphicView(Activity pActivity)
     {
         super(pActivity);
@@ -161,17 +163,22 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
         //every POINT has the same coordinates
         float vtx[] = {
                 // X,  Y, Z
-                0f, 0f, 0,
+                15f, 15f, 20f,
                 10f,20f, 30f,
                 -10f,-20f, 10f,
                 20f,20f,20f
         };
+
 
         GL11 gl = (GL11)gl1; //we need 1.1 functionality
         //set background frame color
         gl.glClearColor(0f, 0f, 0f, 1.0f); //black
         //generate vertex arrays for scene objects
         BuildPoint(gl,vtx);
+
+
+
+
 
     }
 
@@ -312,6 +319,7 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
                 SetStatusMsg(Math.round(mFPS*100)/100f+" fps"); //2 decimal places
             }
         }
+
     }
     //float splashCtr = 0;
     void DrawSceneObjects(GL11 gl)
@@ -319,10 +327,11 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
         //繪製點
         if (ShowPoint) {
             gl.glPushMatrix();
-            gl.glColor4f(1f, 1f, 0f, 1);
+            gl.glColor4f(0.5f, 0.5f, 0f, 1);
             //POINT SIZE : 用PIXEL定義該點大小
             gl.glPointSize(50);
             DrawObject(gl, GLES20.GL_POINTS,mPOINT);
+            //DrawColor(gl, GLES20.GL_POINTS,mPOINT,colorBuffer1);
             gl.glPopMatrix();
         }
     }
@@ -335,7 +344,7 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
         gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, pObjNum);
         //each vertex is made up of 3 floats [x\y\z]
         gl.glVertexPointer(3, GL11.GL_FLOAT, 0, 0);
-        //draw triangles
+        //draw points
         gl.glDrawArrays(pShapeType, 0, mBufferLen[pObjNum]);
         //unbind from memory
         gl.glBindBuffer(GL11.GL_ARRAY_BUFFER, 0);
@@ -350,36 +359,6 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
         });
     }
 
-    //if user hides FPS, then clear text
-    public void SetShowFPS(boolean pShowFPS)
-    {
-        ShowFPS = pShowFPS;
-        SetStatusMsg(""); //clear message
-    }
-
-    //rotate scene or rotate camera
-    public void SwapCenter()
-    {
-        RotateScene = !RotateScene;
-        if (RotateScene) //rotate around fountain
-        {
-            //calculate scene angles based on camera position
-            //hypotenuse using 2 dimensions
-            float hypLen = (float)Math.sqrt(mCamXpos*mCamXpos+mCamZpos*mCamZpos); //across floor
-            mSceneYAng = (float)Math.atan2(mCamXpos,mCamZpos)*(float)mRad2Deg;
-            //3rd dimension
-            mSceneXAng = (float)Math.atan2(mCamYpos,hypLen)*(float)mRad2Deg;
-
-            mTargetX = mTargetY = mTargetZ = 0; //camera always looks at 0,0,0
-        }
-        else //rotate camera
-        {
-            //camera angle is reverse of scene angle
-            mCamYang = mSceneYAng+180;
-            mCamXang = -mSceneXAng;
-            ChangeCameraAngle(0,0); //set camera view target
-        }
-    }
 
     //rotate camera around fountain
     void ChangeSceneAngle(float pChgXang, float pChgYang)
@@ -411,8 +390,7 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
             mCamZpos *= HypLenNew/hypLen;
             mCamXpos *= HypLenNew/hypLen;
         }
-        //float camDist = (float)Math.sqrt(mCamXpos*mCamXpos+mCamYpos*mCamYpos+mCamZpos*mCamZpos);
-        ///SetStatusMsg(""+camDist+" : "+mSceneXAng+" : "+mSceneYAng);
+
     }
 
     //change camera view direction
@@ -467,8 +445,7 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
             mTargetY += chgCamY;
             mTargetZ += chgCamZ;
         }
-        ///float camDist = (float)Math.sqrt(mCamXpos*mCamXpos+mCamYpos*mCamYpos+mCamZpos*mCamZpos);
-        ///SetStatusMsg(""+camDist+" : "+mSceneXAng+" : "+mSceneYAng);
+
         mResetMatrix = true; //recalc depth buffer range
     }
 
@@ -520,4 +497,6 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
         }
         return super.onTouchEvent(pEvent);
     }
+
+
 }
