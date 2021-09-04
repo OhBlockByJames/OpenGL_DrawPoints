@@ -30,6 +30,7 @@ public class Points {
 
     public Points(){
         //頂點著色器
+
         int vertexShader = MyGLRenderer.loadShader(GLES20.GL_VERTEX_SHADER,
                 vertexShaderCode);
 

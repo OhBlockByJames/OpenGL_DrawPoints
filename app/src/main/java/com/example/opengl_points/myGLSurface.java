@@ -8,6 +8,8 @@ public class myGLSurface extends GLSurfaceView {
 
     private final MyGLRenderer mRenderer;
 
+    //private final PixelDrawRenderer pRenderer;
+
     public myGLSurface(Context context) {
         super(context);
 
@@ -18,6 +20,11 @@ public class myGLSurface extends GLSurfaceView {
         // Set the Renderer for drawing on the GLSurfaceView
         mRenderer = new MyGLRenderer();
         setRenderer(mRenderer);
+
+        //pRenderer=new PixelDrawRenderer();
+        //setRenderer(pRenderer);
+
+
 
         // Render the view only when there is a change in the drawing data
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -52,10 +59,10 @@ public class myGLSurface extends GLSurfaceView {
                     dy = dy * -1 ;
                 }
 
-                mRenderer.setAngle(
+                /*mRenderer.setAngle(
                         mRenderer.getAngle() +
                                 ((dx + dy) * TOUCH_SCALE_FACTOR));  // = 180.0f / 320
-                requestRender();
+                requestRender();*/
         }
 
         mPreviousX = x;

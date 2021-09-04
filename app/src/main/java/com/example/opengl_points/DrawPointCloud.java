@@ -30,7 +30,7 @@ import javax.microedition.khronos.egl.EGLSurface;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
-public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Renderer {
+public class DrawPointCloud extends  GLSurfaceView implements GLSurfaceView.Renderer {
 
     private static float mAngCtr = 0; //for animation
     long mLastTime = SystemClock.elapsedRealtime();
@@ -75,11 +75,12 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
     float mFPS = 0; //actual fps value
 
     TextView mTxtMsg = null; //for displaying FPS
-    final GraphicView mTagStore = this; //for SetTextMessage
+    final DrawPointCloud mTagStore = this; //for SetTextMessage
     Handler mThreadHandler = new Handler(); //used in SetTextMessage
 
     //constants for scene objects in GPU buffer
     final int mPOINT = 1;
+    final int mPOINT2 = 2;
 
     //need to store length of each vertex buffer
     int[] mBufferLen = new int[] {0,0,0,0,0,0,0}; //0/Floor/Ball/Pool/Wall/Drop/Splash
@@ -112,9 +113,7 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
 
 
 
-
-
-    public GraphicView(Activity pActivity)
+    public DrawPointCloud(Activity pActivity)
     {
         super(pActivity);
 
@@ -150,11 +149,11 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
                         .getSensorList(Sensor.TYPE_ACCELEROMETER).get(0),SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    public GraphicView(Context context) {
+    public DrawPointCloud(Context context) {
         super(context);
     }
 
-    public GraphicView(Context context, AttributeSet attrs) {
+    public DrawPointCloud(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -162,8 +161,6 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
     @Override
     public void onSurfaceCreated(GL10 gl1, EGLConfig pConfig)
     {
-
-
         //every POINT has the same coordinates
         float vtx[] = {
                 // X,  Y, Z
@@ -171,13 +168,23 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
                 10f,20f, 30f,
                 -10f,-20f, 10f,
                 20f,20f,20f,
+                30f,30f,30f
         };
+
+
+        //add
+        float vtx2[] = {
+                // X,  Y, Z
+                0f, 0f, 0f,
+        };
+
 
         GL11 gl = (GL11)gl1; //we need 1.1 functionality
         //set background frame color
         gl.glClearColor(0f, 0f, 0f, 1.0f); //black
         //generate vertex arrays for scene objects
         StoreVertexData(gl,vtx,mPOINT);
+        //StoreVertexData(gl,vtx2,mPOINT2);
         //BuildPoint(gl,vtx);
     }
 
@@ -301,7 +308,8 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
         //draw the scene
         //DrawSceneObjects(gl,0.5f,0.3f,0.2f);
         //DrawSceneObjects(gl,0.1f,0.9f,0.6f);
-        DrawObject(gl, GLES20.GL_POINTS,mPOINT,0.5f,0.9f,0.2f);
+        //DrawObject(gl, GLES20.GL_POINTS,mPOINT,1f,0f,0f);
+        //DrawObject(gl, GLES20.GL_POINTS,mPOINT2,1f,0f,0f);
 
         if (ShowFPS) //average fps across last 20 frames
         {
@@ -345,10 +353,7 @@ public class GraphicView extends  GLSurfaceView implements GLSurfaceView.Rendere
         //POINT SIZE : 用PIXEL定義該點大小
         gl.glPointSize(50);
 
-
         //GLES20.glUniform4fv();
-
-
 
         //activate vertex array type
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
